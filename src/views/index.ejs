@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%- include('partials/_head') %>
+
+    <link rel="stylesheet" href="./css/thumbnail-gallery.css">
+    <title>Pic.to.me</title>
+</head>
+<body>
+ 
+    <%- include('partials/_header') %>
+  
+
+    <div class="container gallery-container">
+        <h1>PHOTOS</h1>
+        <p class="page-description text-center">Add me photos!</p>  
+        <div class="tz-gallery">
+            <div class="row">
+                <% allphotos.forEach(function(photo) { %>
+                    <div class="col-sm-6 col-md-3">
+                        <div class="card thumbnail">
+                            <a href="/delete/<%= photo.id %>"><img class="btn-Delete" src="./images/icons/delete-button.ico" width="25" ></a>
+                            <img class="btn-Edit"  src="./images/icons/edit-button.ico" width="30" data-toggle="collapse" data-target="#editForm<%= photo.id %>" ria-expanded="false" aria-controls="editForm<%= photo.id %>">
+                            <img
+                                src="<%= photo.image %>"
+                                class="card-img-top"
+                                alt="<%= photo.title%> image"
+                            />
+                            <div class="card-body">
+                                <h5 class="card-title"><%= photo.title.toUpperCase() %></h5>
+                                <p class="card-text">
+                                    Date: <%= photo.date %>
+                                </p>
+   
+                                <!-- It begins the edit form of the card -->
+                                <div id="editForm<%= photo.id %>" class="caption collapse">
+                                    <form class="form-row" method="POST" action="/edit/<%= photo.id %>">
+                                        <div class="row mb-3">
+                                          <label for="validationDefault01" class="form-label">Título</label>
+                                          <input type="text" name="title" class="form-control " id="validationDefault01"  value="<%= photo.title %>" maxlength="10" pattern="^[A-Za-z0-9_]+$" title="Solo puede contener letras, números o guión bajo." required>
+                                        </div>
+                                        <div class="row mb-3">
+                                          <label for="validationDefault02" class="form-label">URL source image</label>
+                                          <input type="text" name="url" class="form-control" pattern="(http(s?):)([/|.|\w|\s|-])*\.(?:jpg|gif|png)" title="El formato debe ser válido. Ej. http://wwww.face.com/a.jpg" id="validationDefault02" value="<%= photo.image %>" readonly>
+                                        </div>
+                                        <div class="row mb-3">
+                                          <label for="example-date-input2" class="form-label">Date</label>
+                                          <input class="form-control" name="date" type="date" value="<%= photo.date %>" id="example-date-input2" required>
+                                        </div>
+                                        <div class="col-12 mt-4">
+                                          <button class="btn btn-primary" type="submit">Save changes</button>
+                                        </div>
+                                      </form>
+                                </div>    
+                            </div>
+                        </div>
+                    </div>
+                <% }); %>
+            </div>
+        </div>
+    </div>
+
+
+    
+
+    <%- include('partials/_footer') %>
+    
+    <%- /* include('partials/add-photo') */%>
+
+
+</body>
+</html>

@@ -1,0 +1,42 @@
+<div class="modal fade" id="ventanaModal" tabindex="-1" role="dialog" aria-labelledby="tituloVentana" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 id="tituloVentana">Add Photo!</h5>
+                <button class="close" data-dismiss="modal" aria-label="Cerrar">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+              <form class="form-row" method="POST" action="/add">
+                <div class="col-md-4 mb-3">
+                  <label for="validationDefault01" class="form-label">Título</label>
+                  <input type="text" name="title" class="form-control" id="validationDefault01" value="Foto_1" maxlength="10" pattern="^[A-Za-z0-9_]+$" title="Solo puede contener letras, números o guión bajo." required>
+                </div>
+                <div class="col-md-4 mb-3">
+                  <label for="validationDefault02" class="form-label">URL source image</label>
+                  <input type="text" name="url" class="form-control" pattern="(http(s?):)([/|.|\w|\s|-])*\.(?:jpg|gif|png)" title="El formato debe ser válido. Ej. http://wwww.face.com/a.jpg" id="validationDefault02" placeholder="https://i.blogs.es/594843/chrome/450_1000.jpg" value="https://i.blogs.es/594843/chrome/450_1000.jpg" required>
+                </div>
+                <div class="col-md-4 mb-3">
+                  <label for="example-date-input2" class="form-label">Date</label>
+                  <input class="form-control" name="date" type="date" value="2021-08-19" id="example-date-input2" required>
+                </div>
+                <% if(error){ %> 
+                  <div class="col-md-4 p-3 mb-3 bg-danger text-white">
+                    La URL <%= url %>  ya existe. 
+                  </div>
+                <% } %> 
+               
+        
+                <div class="col-12 mt-4">
+                  <button class="btn btn-primary" type="submit">Add Photo!</button>
+                </div>
+              </form>
+            </div>
+            <div class="modal-footer row-3">
+                <p>URL de fotografías únicas</p>
+                <p>Solo se permiten letras, número y/o guión bajo en los nombres.</p>
+            </div>
+        </div>
+    </div>
+</div>
