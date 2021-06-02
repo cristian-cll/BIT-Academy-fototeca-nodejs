@@ -103,3 +103,14 @@ footer{
     font-size: 18px;
     color: #85878c;
 }
+
+.rgb-palette{
+    font-size: 0.8em;
+    opacity: .9;
+    text-align: center;
+    border-radius: 5px;
+}
+
+.rgb-palette:hover{
+    opacity: 1;
+}

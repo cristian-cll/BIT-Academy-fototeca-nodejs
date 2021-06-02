@@ -17,48 +17,52 @@ class Photo {
 let photos = [{
     id: 1,
     title: "Example",
-    image: "https://www.wnpower.com/blog/wp-content/uploads/sites/3/2020/02/tama%C3%B1o-imagen-instagram-redes-sociales.jpg",
-    date: "2022-05-28"
+    image: "http://www.silocreativo.com/wp-content/uploads/2020/07/ocultar-imagen-destacada-wordpress.png",
+    date: "2022-05-28",
+    palette: "251,213,220"
 },{
     id: 2,
     title: "Example2",
     image: "https://disenowebakus.net/imagenes/articulos/html5.jpg",
-    date: "2022-05-28"
+    date: "2022-05-28",
+    palette: "236,97,39"
 },{
     id: 3,
     title: "Example3",
     image: "https://i.blogs.es/594843/chrome/450_1000.jpg",
-    date: "2022-05-28"
+    date: "2022-05-28",
+    palette: "12,92,155"
 },{ 
     id: 4,
     title: "Example4",
     image: "https://www.teknofilo.com/wp-content/uploads/2020/03/whatsapp-1280x720.jpg",
-    date: "2023-05-28"
+    date: "2023-05-28",
+    palette: "147,219,115"
+},{
+    id: 5,
+    title: "Homer",
+    image: "https://3.bp.blogspot.com/-JfL1o7oSnKI/VmodObHF9cI/AAAAAAAABLY/nKKRXw0-yiU/s1600/homero_456_336.jpg",
+    date: "2023-05-28",
+    palette: "66,138,212"
 }];
 
 
-
+//let image = "https://www.adslzone.net/app/uploads-adslzone.net/2019/04/borrar-fondo-imagen.jpg";
 const { getColorFromURL } = require('color-thief-node');
 
-let getColor = async function(url){
-    const dominantColor = await getColorFromURL(url);
-    console.log(dominantColor)
-    return dominantColor;
-};
  
+async function getColorRGB(image){
+    const dominantColor = await getColorFromURL(image);
+    return dominantColor.toString();
+}
+ 
+//color(image).then(console.log)
 
 
+exports.checkDuplicateUrl = (image) => photos.some(photo => photo.image === image);
 
 exports.addPhoto = function(title, image, date){
-
-    let photoFound = photos.find(photo => photo.image == image);
-
-    console.log(photoFound);
-    if(!photoFound){
-        console.log("aqui entra");
-        return photos.push(new Photo(title, image, date));
-    }
-    return false;
+    getColorRGB(image).then(palette => photos.push(new Photo(title, image, date, palette)))
 };
 
 
@@ -78,8 +82,3 @@ exports.editPhoto = function(id, title, image, date){
         }
     });
 };
-
-
-
-
-

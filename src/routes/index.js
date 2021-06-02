@@ -7,9 +7,6 @@ const database = require("../models/database");
 router.get("/", (req, res) => {
     res.render("index", {
         allphotos: database.getPhotos(),
-        getcolor(url){
-             database.getColor(url)
-        }
     });
 });
 
@@ -21,27 +18,49 @@ router.get("/add", (req, res) => {
 
 
 
-router.post("/add", (req, res)=>{
-
-    console.log("body req", req.body);
+/* router.post("/add", (req, res)=>{
 
     const photoTitle = req.body.title; 
     const photoUrl = req.body.url; 
     const photoDate = req.body.date; 
-  
-
-    if (!database.addPhoto(photoTitle, photoUrl, photoDate)){
+    
+    
+    if(database.checkDuplicateUrl(photoUrl)){
         return res.render("addimage", {
             error: true,
             url: photoUrl
         });
     }
 
+    database.addPhoto(photoTitle, photoUrl, photoDate)
+    
+  
+    res.redirect("/");
+});
+ */
+
+router.post("/add", (req, res)=>{
+
+    const photoTitle = req.body.title; 
+    const photoUrl = req.body.url; 
+    const photoDate = req.body.date; 
+    
+    
+    if(database.checkDuplicateUrl(photoUrl)){
+        return res.render("addimage", {
+            error: true,
+            url: photoUrl
+        });
+    }
+
+    database.addPhoto(photoTitle, photoUrl, photoDate);
+
+    res.redirect("/");
+    
+  
    
-    res.render("index", {
-        allphotos: database.getPhotos()
-    });
-})
+});
+
 
 
 router.get("/delete/:id", async (req, res) => {
@@ -61,6 +80,15 @@ router.post("/edit/:id", async (req, res) => {
     await database.editPhoto(id, photoTitle, photoUrl, photoDate);
     res.redirect("/");
 });
+
+
+router.post("/your/", function (req, res) {
+    const show_modal = !!req.body.modal; // Cast to boolean
+    res.render("index", { show_modal }); //Pasamos el boleano
+});
+
+
+
 
 //Cualquier otro enpoint, tanto si es GET, POST, PUT o DELETE. Si no cae por ningún otro endpoint, devuelve esto.
 router.use((req, res) => {

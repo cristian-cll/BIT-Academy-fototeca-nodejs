@@ -31,6 +31,9 @@
                                 <p class="card-text">
                                     Date: <%= photo.date %>
                                 </p>
+                                <p class="rgb-palette p-3" style="background-color: rgb(<%= photo.palette %>)">
+                                    RGB(<%= photo.palette %>)
+                                </p>
    
                                 <!-- It begins the edit form of the card -->
                                 <div id="editForm<%= photo.id %>" class="caption collapse">
@@ -60,12 +63,12 @@
         </div>
     </div>
 
-
-    
+    <%-include ('partials/add-photo')%>
+ 
 
     <%- include('partials/_footer') %>
     
-    <%- /* include('partials/add-photo') */%>
+   
 
 
 </body>
