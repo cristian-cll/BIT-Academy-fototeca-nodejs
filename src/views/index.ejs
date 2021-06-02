@@ -2,9 +2,6 @@
 <html lang="en">
 <head>
     <%- include('partials/_head') %>
-
-    <link rel="stylesheet" href="./css/thumbnail-gallery.css">
-    <title>Pic.to.me</title>
 </head>
 <body>
  
@@ -27,7 +24,7 @@
                                 alt="<%= photo.title%> image"
                             />
                             <div class="card-body">
-                                <h5 class="card-title"><%= photo.title.toUpperCase() %></h5>
+                                <h5 class="card-title"> <%= photo.title.toUpperCase() %> </h5>
                                 <p class="card-text">
                                     Date: <%= photo.date %>
                                 </p>
@@ -64,12 +61,7 @@
     </div>
 
     <%-include ('partials/add-photo')%>
- 
-
     <%- include('partials/_footer') %>
-    
-   
-
 
 </body>
 </html>

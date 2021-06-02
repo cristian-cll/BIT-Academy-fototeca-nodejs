@@ -114,3 +114,7 @@ footer{
 .rgb-palette:hover{
     opacity: 1;
 }
+
+.currentTab{
+    color: yellow !important; 
+}

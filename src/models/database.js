@@ -1,16 +1,11 @@
 
 class Photo {
     constructor(title, image, date, palette){
-        this.id = Photo.incrementId();
         this.title = title;
         this.image = image;
         this.date = date;
         this.palette = palette
-    }
-    static incrementId() {
-        if (!this.latestId) this.latestId = 1
-        else this.latestId++
-        return this.latestId
+        
     }
 }
 
@@ -47,7 +42,6 @@ let photos = [{
 }];
 
 
-//let image = "https://www.adslzone.net/app/uploads-adslzone.net/2019/04/borrar-fondo-imagen.jpg";
 const { getColorFromURL } = require('color-thief-node');
 
  
@@ -56,13 +50,14 @@ async function getColorRGB(image){
     return dominantColor.toString();
 }
  
-//color(image).then(console.log)
-
 
 exports.checkDuplicateUrl = (image) => photos.some(photo => photo.image === image);
 
-exports.addPhoto = function(title, image, date){
-    getColorRGB(image).then(palette => photos.push(new Photo(title, image, date, palette)))
+exports.addPhoto = async function(title, image, date){
+    const palette = await getColorRGB(image);
+    const newPhoto = new Photo(title, image, date, palette)
+    newPhoto.id = photos.length + 1;
+    photos.push(newPhoto)
 };
 
 

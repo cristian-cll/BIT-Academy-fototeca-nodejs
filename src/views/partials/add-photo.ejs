@@ -8,6 +8,8 @@
                 </button>
             </div>
             <div class="modal-body">
+
+
               <form class="form-row" method="POST" action="/add">
                 <div class="col-md-4 mb-3">
                   <label for="validationDefault01" class="form-label">Título</label>
@@ -15,19 +17,21 @@
                 </div>
                 <div class="col-md-4 mb-3">
                   <label for="validationDefault02" class="form-label">URL source image</label>
-                  <input type="text" name="url" class="form-control" pattern="(http(s?):)([/|.|\w|\s|-])*\.(?:jpg|gif|png)" title="El formato debe ser válido. Ej. http://wwww.face.com/a.jpg" id="validationDefault02" placeholder="https://i.blogs.es/594843/chrome/450_1000.jpg" value="https://i.blogs.es/594843/chrome/450_1000.jpg" required>
+                  <input id="textUrl" type="text" name="url" class="form-control" pattern="(http(s?):)([/|.|\w|\s|-])*\.(?:jpg|gif|png)" title="El formato debe ser válido. Ej. http://wwww.face.com/a.jpg" required>
                 </div>
                 <div class="col-md-4 mb-3">
                   <label for="example-date-input2" class="form-label">Date</label>
                   <input class="form-control" name="date" type="date" value="2021-08-19" id="example-date-input2" required>
                 </div>
-
-        
+                <div id="showError" hidden>
+                  <!-- Mensaje de error -->
+                </div>
                 <div class="col-12 mt-4">
-                  <button class="btn btn-primary" type="submit">Add Photo!</button>
+                  <button id="btnAdd" class="btn btn-primary" type="submit">Add Photo!</button>
                 </div>
               </form>
             </div>
+
             <div class="modal-footer row-3">
                 <p>URL de fotografías únicas</p>
                 <p>Solo se permiten letras, número y/o guión bajo en los nombres.</p>
@@ -35,3 +39,35 @@
         </div>
     </div>
 </div>
+<script>
+
+
+  const urlText = document.querySelector("#textUrl");
+  const showError = document.querySelector("#showError");
+  let inputMargin;
+
+  urlText.addEventListener("input", ()=>{
+    if(inputMargin){
+      clearTimeout(inputMargin)
+    }
+    inputMargin = setTimeout(()=>{
+      console.log(urlText.value); 
+      fetch("/checkphoto/?photoURL=" + urlText.value)
+        .then(res => res.json())
+        .then(data => {
+          if(data.error){
+            document.querySelector("#btnAdd").disabled = true;
+            showError.hidden = false;
+            showError.innerHTML = `La ${data.url} ya existe`;
+            showError.setAttribute("class","col-md-4 p-3 mb-3 bg-danger text-white");
+          }
+          if(!data.error){
+            document.querySelector("#btnAdd").disabled = false;
+            showError.hidden = true;
+          }
+      })
+    },500);
+  });
+
+
+</script>
