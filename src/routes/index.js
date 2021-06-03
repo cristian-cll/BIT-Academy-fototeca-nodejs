@@ -14,18 +14,12 @@ router.get("/", (req, res) => {
 
 
 router.post("/add", async (req, res)=>{
-
     const photoTitle = req.body.title; 
     const photoUrl = req.body.url; 
     const photoDate = req.body.date; 
     
-
-    //MIRARLO BIEN!!!!!!!
     if(database.checkDuplicateUrl(photoUrl)){
-        return res.render("addimage", {
-            error: true,
-            url: photoUrl
-        });
+        return res.redirect("/");;
     }
     await database.addPhoto(photoTitle, photoUrl, photoDate);
     res.redirect("/");
@@ -40,7 +34,6 @@ router.get("/delete/:id", (req, res) => {
 
 
 router.post("/edit/:id", (req, res) => {
-
     const photoTitle = req.body.title; 
     const photoUrl = req.body.url; 
     const photoDate = req.body.date; 
@@ -51,14 +44,22 @@ router.post("/edit/:id", (req, res) => {
 });
 
 
-router.get("/checkphoto/", (req, res) => {
+router.get("/checkphoto/", async (req, res) => {
     const url = req.query.photoURL;
 
     let isDuplicateUrl = database.checkDuplicateUrl(url)
-
+    try{
+        await database.getColorRGB(url)
+    }
+    catch(error){
+        return res.json({
+            error: true,
+            errorText: "No es una url o imagen válida. Solo formatos .jpg .gif .png"
+        })
+    }
     res.json({
         error: isDuplicateUrl,
-        url: url 
+        errorText: `La url ${url} ya existe`,
     })
 });
 
@@ -74,12 +75,13 @@ router.get("/search/", (req, res) => {
     });
 });
 
-
-
 router.get("/order/", (req, res) => {
     let by = req.query.by;
     let sortedPhotos = database.orderBy(by);
 
+    if(sortedPhotos == null) {
+        return res.redirect("/");
+    }
      res.render("index", {
         allphotos: sortedPhotos,
         title: "Pic.to.me Gallery",
@@ -92,14 +94,6 @@ router.get("/about", (req, res) => {
     res.render("about", {
         title: "Pic.to.me Gallery - About",
         page_name: "about"
-    });
-});
-
-
-//Cualquier otro endpoint, tanto si es GET, POST, PUT o DELETE. Si no cae por ningún otro endpoint, devuelve esto.
-router.use((req, res) => {
-    res.status(404).render("404", {
-        title: "Pic.to.me Gallery - NOT FOUND",
     });
 });
 

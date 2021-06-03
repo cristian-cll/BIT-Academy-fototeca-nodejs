@@ -15,7 +15,7 @@
                 </div>
                 <div class="mb-3">
                   <label for="validationDefault02" class="form-label">URL source image</label>
-                  <input id="textUrl" type="text" name="url" class="form-control" pattern="(http(s?):)([/|.|\w|\s|-])*\.(?:jpg|gif|png)" title="El formato debe ser válido. Ej. http://wwww.face.com/a.jpg" required>
+                  <input id="textUrl" type="url" name="url" class="form-control" title="El formato debe ser válido. Ej. http://wwww.face.com/a.jpg" required>
                   <div id="cargando" style="display:none" >Cargando</div>
                 </div>
                 <div class="mb-3">
@@ -26,7 +26,7 @@
                   <!-- Mensaje de error -->
                 </div>
                 <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                  <button id="btnAdd" class="btn btn-primary" type="submit">Add Photo!</button>
+                  <button id="btnAdd" class="btn btn-primary" type="submit" disabled>Add Photo!</button>
                 </div>
               </form>
             </div>
@@ -53,15 +53,13 @@
       clearTimeout(inputMargin)
     }
     inputMargin = setTimeout(()=>{
-      console.log(urlText.value); 
       loading.style.display = 'block';
-      fetch("/checkphoto/?photoURL=" + urlText.value)
+      fetch("/checkphoto/?photoURL=" + urlText.value,)
         .then(res => res.json())
         .then(data => {
           if(data.error){
-            document.querySelector("#btnAdd").disabled = true;
             showError.hidden = false;
-            showError.innerHTML = `La url ${data.url} ya existe`;
+            showError.innerHTML = data.errorText;
             showError.setAttribute("class","p-3 mb-3 bg-danger text-white");
           }
           if(!data.error){
@@ -70,7 +68,6 @@
           }
           loading.style.display = 'none';
       })
-      .catch(error => console.error('Error:', error));
     },500);
   });
 

@@ -14,12 +14,27 @@ app.use(express.static('public'));
 const indexRoutes = require("./routes/index");
 
 //Using routes from another file
-app.use("/", indexRoutes);
+app.use(indexRoutes);
 
 //Settings
 
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
+
+
+//Cualquier otro endpoint, tanto si es GET, POST, PUT o DELETE. Si no cae por ningún otro endpoint, devuelve esto.
+app.use((req, res) => {
+    res.status(404).render("404", {
+        title: "Pic.to.me Gallery - NOT FOUND",
+        page_name: "404"
+    });
+});
+
+app.use(function(err, req, res, next) {
+    console.error("error", err.stack);
+    res.status(500).send('Something broke!');
+});
+  
 
 
 app.listen(3000);
