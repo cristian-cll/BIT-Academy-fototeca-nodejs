@@ -20,6 +20,7 @@ app.use(indexRoutes);
 
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
+app.set('port', process.env.PORT || 8080);
 
 
 //Cualquier otro endpoint, tanto si es GET, POST, PUT o DELETE. Si no cae por ningún otro endpoint, devuelve esto.
@@ -37,4 +38,4 @@ app.use(function(err, req, res, next) {
   
 
 
-app.listen(3000);
+app.listen(app.get('port'));
