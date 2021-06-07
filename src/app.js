@@ -11,13 +11,12 @@ app.use(express.static('public'));
 
 
 //Importing routes 
-const indexRoutes = require("./routes/index");
+const indexRoutes = require("./routes/photo");
 
 //Using routes from another file
 app.use(indexRoutes);
 
 //Settings
-
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
 app.set('port', process.env.PORT || 8080);

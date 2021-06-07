@@ -1,83 +1,74 @@
-const express = require ("express");
-const router = express.Router();
-const database = require("../models/database");
+const Photo = require("../models/Photo");
 
-//Defining endpoints
-
-router.get("/", (req, res) => {
+exports.getAllPhotos = (req, res) => {
     res.render("index", {
-        allphotos: database.getPhotos().sort((a,b) =>new Date(b.date) - new Date(a.date)),
+        allphotos: Photo.getPhotos().sort((a,b) =>new Date(b.date) - new Date(a.date)),
         title: "Pic.to.me Gallery",
         page_name: "home"
     });
-});
+}
 
-
-router.post("/add", async (req, res)=>{
+exports.addPhoto =  async (req, res)=>{
     const photoTitle = req.body.title; 
     const photoUrl = req.body.url; 
     const photoDate = req.body.date; 
     
-    if(database.checkDuplicateUrl(photoUrl)){
+    if(Photo.checkDuplicateUrl(photoUrl)){
         return res.redirect("/");;
     }
-    await database.addPhoto(photoTitle, photoUrl, photoDate);
+    await Photo.addPhoto(photoTitle, photoUrl, photoDate);
     res.redirect("/");
-});
+}
 
-
-router.get("/delete/:id", (req, res) => {
+exports.deletePhoto = (req, res) => {
     const { id } = req.params; //Podemos obtener el valor id del objeto req.params.
-    database.deletePhoto(id);
+    Photo.deletePhoto(id);
     res.redirect("/");
-});
+}
 
-
-router.post("/edit/:id", (req, res) => {
+exports.editPhoto = (req, res) => {
     const photoTitle = req.body.title; 
     const photoUrl = req.body.url; 
     const photoDate = req.body.date; 
     const id = req.params.id; //De esta forma obtenemos también el id de forma directa al objeto.
 
-    database.editPhoto(id, photoTitle, photoUrl, photoDate);
+    Photo.editPhoto(id, photoTitle, photoUrl, photoDate);
     res.redirect("/");
-});
+}
 
-
-router.get("/checkphoto/", async (req, res) => {
+exports.checkPhoto = async (req, res) => {
     const url = req.query.photoURL;
 
-    let isDuplicateUrl = database.checkDuplicateUrl(url)
+    let isDuplicateUrl = Photo.checkDuplicateUrl(url)
     try{
-        await database.getColorRGB(url)
+        await Photo.getColorRGB(url)
     }
     catch(error){
         return res.json({
             error: true,
-            errorText: "No es una url o imagen válida. Solo formatos .jpg .gif .png"
+            errorText: "No es una url o Photo válida. Solo formatos .jpg .gif .png"
         })
     }
     res.json({
         error: isDuplicateUrl,
         errorText: `La url ${url} ya existe`,
     })
-});
+}
 
-
-router.get("/search/", (req, res) => {
+exports.searchPhoto = (req, res) => {
     const title = req.query.title;
-    const search = database.searchPhotos(title)
+    const search = Photo.searchPhotos(title)
 
     res.render("index", {
         allphotos: search,
         title: "Pic.to.me Gallery - Results",
         page_name: "results"
     });
-});
+}
 
-router.get("/order/", (req, res) => {
+exports.orderPhoto = (req, res) => {
     let by = req.query.by;
-    let sortedPhotos = database.orderBy(by);
+    let sortedPhotos = Photo.orderBy(by);
 
     if(sortedPhotos == null) {
         return res.redirect("/");
@@ -87,15 +78,11 @@ router.get("/order/", (req, res) => {
         title: "Pic.to.me Gallery",
         page_name: "home"
     }); 
-});
+}
 
-
-router.get("/about", (req, res) => {
+exports.about = (req, res) => {
     res.render("about", {
         title: "Pic.to.me Gallery - About",
         page_name: "about"
     });
-});
-
-
-module.exports = router;
+}
