@@ -11,9 +11,11 @@ app.use(express.static('public'));
 
 
 //Importing routes 
-const indexRoutes = require("./routes/photo");
+const photosRoutes = require("./routes/photo");
+const indexRoutes = require("./routes/index");
 
 //Using routes from another file
+app.use(photosRoutes);
 app.use(indexRoutes);
 
 //Settings
