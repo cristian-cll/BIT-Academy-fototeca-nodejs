@@ -9,7 +9,6 @@
     <div class="container gallery-container">
         <h1>PHOTOS</h1>
         <p class="page-description text-center">Add me photos!</p>  
-
         <div class="tz-gallery">
             <select id="selectOrderBy" class="form-select mb-3" aria-label="Default select example" onchange="changeAction(this.value)">
                 <option selected>Order by</option>
@@ -36,21 +35,28 @@
                                 <p class="rgb-palette p-3" style="background-color: rgb(<%= photo.palette %>)">
                                     RGB(<%= photo.palette %>)
                                 </p>
-   
+                                <div class="tagContainer">
+                                    <% photo.tags && photo.tags.forEach(tag=>{ %> 
+                                        <div class="tag" style="background-color: <%= tag.color %> ">
+                                            <%= tag.title %>
+                                        </div>
+                                    <% }) %> 
+                                </div>
+
                                 <!-- It begins the edit form of the card -->
                                 <div id="editForm<%= photo.id %>" class="caption collapse">
                                     <form class="form-row" method="POST" action="/edit/<%= photo.id %>">
                                         <div class="row mb-3">
-                                          <label for="validationDefault01" class="form-label">Título</label>
-                                          <input type="text" name="title" class="form-control " id="validationDefault01"  value="<%= photo.title %>" maxlength="10" pattern="^[A-Za-z0-9_]+$" title="Solo puede contener letras, números o guión bajo." required>
+                                          <label for="editTitle" class="form-label">Título</label>
+                                          <input type="text" name="title" class="form-control " id="editTitle<%= photo.id %>"  value="<%= photo.title %>" maxlength="10" pattern="^[A-Za-z0-9_]+$" title="Solo puede contener letras, números o guión bajo." required>
                                         </div>
                                         <div class="row mb-3">
-                                          <label for="validationDefault02" class="form-label">URL source image</label>
-                                          <input type="url" name="url" class="form-control" title="El formato debe ser válido. Ej. http://wwww.face.com/a.jpg" id="validationDefault02" value="<%= photo.image %>" readonly>
+                                          <label for="editUrl" class="form-label">URL source image</label>
+                                          <input type="url" name="url" class="form-control" title="El formato debe ser válido. Ej. http://wwww.face.com/a.jpg" id="editUrl<%= photo.id %>" value="<%= photo.image %>" readonly>
                                         </div>
                                         <div class="row mb-3">
-                                          <label for="example-date-input2" class="form-label">Date</label>
-                                          <input class="form-control" name="date" type="date" value="<%= photo.date %>" id="example-date-input2" required>
+                                          <label for="editDate" class="form-label">Date</label>
+                                          <input class="form-control" name="date" type="date" value="<%= photo.date %>" id="editDate<%= photo.id %>" required>
                                         </div>
                                         <div class="col-12 mt-4">
                                           <button class="btn btn-primary" type="submit">Save changes</button>
@@ -65,14 +71,18 @@
         </div>
     </div>
 
+
+
+    <%-include ('partials/add-photo')%>
+    <%-include ('partials/add-tag')%>
+    <%- include('partials/_footer') %>
+
+
+
     <script>
         function changeAction(val){
             return window.location.href = "/order/?by=" + val;
         }
     </script>
-
-    <%-include ('partials/add-photo')%>
-    <%- include('partials/_footer') %>
-
 </body>
 </html>

@@ -1,11 +1,12 @@
 const express = require ("express");
 const router = express.Router();
-const photosController = require("../controllers/photo");
+//const photosController = require("../controllers/photo");
+const indexController = require("../controllers/index");
 
 //Defining endpoints
 
-router.get("/", photosController.getAllPhotos);
+router.get("/", indexController.home);
 
-router.get("/about", photosController.about);
+router.get("/about", indexController.about);
 
 module.exports = router;

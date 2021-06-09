@@ -1,22 +1,17 @@
 const Photo = require("../models/Photo");
 
-exports.getAllPhotos = (req, res) => {
-    res.render("index", {
-        allphotos: Photo.getPhotos().sort((a,b) =>new Date(b.date) - new Date(a.date)),
-        title: "Pic.to.me Gallery",
-        page_name: "home"
-    });
-}
-
 exports.addPhoto =  async (req, res)=>{
     const photoTitle = req.body.title; 
     const photoUrl = req.body.url; 
-    const photoDate = req.body.date; 
-    
+    const photoDate = req.body.date;
+    const photoTagsTitle = req.body.tagTitle; 
+
     if(Photo.checkDuplicateUrl(photoUrl)){
-        return res.redirect("/");;
+        return res.redirect("/");
     }
-    await Photo.addPhoto(photoTitle, photoUrl, photoDate);
+    await Photo.addPhoto(photoTitle, photoUrl, photoDate, photoTagsTitle);
+
+    console.log(Photo.bbddPhotos);
     res.redirect("/");
 }
 
@@ -78,11 +73,4 @@ exports.orderPhoto = (req, res) => {
         title: "Pic.to.me Gallery",
         page_name: "home"
     }); 
-}
-
-exports.about = (req, res) => {
-    res.render("about", {
-        title: "Pic.to.me Gallery - About",
-        page_name: "about"
-    });
 }

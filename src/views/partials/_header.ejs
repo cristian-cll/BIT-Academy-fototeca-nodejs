@@ -8,7 +8,11 @@
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
           <li class="nav-item">
+            <!-- Al ser modales las dos siguientes, debe encontrarse en el Home para visualizarlas, según mi configuración -->
             <a class="nav-link" data-toggle="modal" data-target="#addPhotoModal" <% if (page_name !== 'home') { %> hidden <% } %>>Add Photo</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" data-toggle="modal" data-target="#addTag" <% if (page_name !== 'home') { %> hidden <% } %>>Add Tag</a>
           </li>
           <li class="nav-item">
             <a  class="nav-link <% if (page_name === 'home') { %> currentTab <% } %>" href="/">Home</a>

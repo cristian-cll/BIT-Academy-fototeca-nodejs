@@ -1,0 +1,26 @@
+<div class="modal fade" id="addTag" tabindex="-1" role="dialog" aria-labelledby="tituloVentana" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 id="tituloVentana">Add Tag!</h5>
+                <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <form class="form-row" method="POST" action="/tags/new-tag">
+                <div class="col-12 mb-3">
+                  <label for="tagTitle" class="form-label">Título etiqueta</label>
+                  <input type="text" name="titleTag" class="form-control" id="tagTitle"  required>
+                </div>
+                <div class="mb-3">
+                  <label for="colorTag class="form-label">Color etiqueta</label>
+                  <input id="colorTag" type="color" name="colorTag" class="form-control"  required>
+                </div>
+    
+                <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                  <button id="btnAddTag" class="btn btn-primary" type="submit">Add Tag!</button>
+                </div>
+              </form>
+            </div>
+        </div>
+    </div>
+</div>

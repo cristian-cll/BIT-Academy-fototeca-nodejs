@@ -118,3 +118,20 @@ footer{
 .currentTab{
     color: yellow !important; 
 }
+
+.tag {
+    display: inline;
+    color: white;
+    font-size: 0.6em;
+    font-weight: bold;
+    padding: 0.5em;
+    border-radius: 5px;
+    margin: 0.5em 0.5em 0.5em 0;
+    height: fit-content;
+  }
+
+  .tagContainer{
+      display: flex;
+      justify-content: center;
+      
+  }
